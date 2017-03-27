@@ -1,0 +1,61 @@
+﻿@charset "utf-8";
+$baseFontSize: 100px !default;
+@function pxToRem($px: 16) {
+  @return $px / $baseFontSize / 2 * 1rem;
+}
+@function strip-units($number){
+    @return $number / ($number * 0 + 1);
+}
+@mixin remlace($property, $values...) {
+  $max: length($values);
+  $remValues: '';
+  @for $i from 1 through $max {
+    $value: strip-units(nth($values, $i));
+    $defaultFontSize: strip-units($baseFontSize);
+    $remValues: #{$remValues + $value / $defaultFontSize / 2 * 1rem};
+    @if $i < $max {
+      $remValues: #{$remValues + " "};
+    }
+  } 
+  #{$property}: $remValues; 
+}
+@mixin borderHandle($borderWidthes:1111, $borderColor:0, $radius:0){
+  $innerWidth: 1;
+  $hasRight:false;
+  @if $borderColor == 0 {
+    $innerWidth: 0;
+  }
+  &:before {
+    @if $borderWidthes%10 == 1 {
+      border-left-width: #{$innerWidth}px;
+    }
+    @if $borderWidthes%100 >= 10{
+      border-bottom-width: #{$innerWidth}px;
+    }
+    @if $borderWidthes%1000 >= 100 {
+      border-right-width: #{$innerWidth}px;
+      $hasRight: true;
+    }
+    @if $borderWidthes >= 1000{
+      border-top-width: #{$innerWidth}px;
+      $hasRight: true;
+    }
+    border-color: $borderColor;
+    border-style: solid;
+    @if ($radius > 0){
+      border-radius: $radius;
+    }
+  }
+  @if $radius > 0{
+    @media (-webkit-min-device-pixel-ratio: 2){
+      &:before {
+        border-radius: $radius*2;
+      }
+    }
+    @media (-webkit-min-device-pixel-ratio: 3){
+      &:before {
+        border-radius: $radius*3;
+      }
+    }
+  }
+}

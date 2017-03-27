@@ -1,0 +1,84 @@
+@charset "utf-8";
+.wrap-login{
+	position: relative;
+	height: 100%;
+	background: url(../assets/images/bg-login.jpg) center top no-repeat;
+	background-size: 100% auto;
+}
+.logo-box{
+	@include remlace(padding-top,100px);
+	.logo{
+		@include remlace(height,182px);
+		background: url(../assets/images/logo-login.png) center center no-repeat;
+		@include remlace(background-size,200px,182px);
+		text-indent: -999em;
+	}
+	.tip{
+		@include remlace(margin-top,28px);
+		@include remlace(font-size,24px);
+		text-align: center;
+		color: #fff;
+	}
+}
+.login-box{
+	@include remlace(padding,92px,50px);
+	.row{
+		@include remlace(margin-bottom,20px);
+		&.border-handle{
+			@include borderHandle(0010,#eee);
+		}
+		.txt{
+			width: 70%;
+			@include remlace(padding,30px,0);
+			@include remlace(line-height,24px);
+			@include remlace(font-size,24px);
+			background: none;
+			border: 0;
+			color: #fff;
+		}
+	}
+	::-webkit-input-placeholder { /* WebKit browsers */
+    	color: #fff;
+	}
+	:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	    color: #fff;
+	}
+	::-moz-placeholder { /* Mozilla Firefox 19+ */
+	    color: #fff;
+	}
+	:-ms-input-placeholder { /* Internet Explorer 10+ */
+	    color: #fff;
+	}
+	.get-code{
+		position: absolute;
+		top: 0;
+		right: 0;
+		@include remlace(padding,30px,0);
+		@include remlace(line-height,24px);
+		@include remlace(font-size,24px);
+		color: #fff;
+		cursor: pointer;
+		&.disabled{
+			color: #ddd;
+			cursor: default;
+		}
+	}
+	.submit-btn{
+		@include remlace(margin-top,50px);
+		@include remlace(line-height,88px);
+		@include remlace(font-size,32px);
+		text-align: center;
+		color: #fff;
+		background-color: #f6ad3c;
+		@include remlace(border-radius,6px);
+		cursor: pointer;
+		@include remlace(letter-spacing,8px);
+		@include remlace(text-indent,8px);
+	}
+}
+.login-tip{
+	@include remlace(padding-bottom,50px);
+	@include remlace(font-size,20px);
+	color: #fff;
+	text-align: center;
+}
