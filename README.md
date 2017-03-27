@@ -2,9 +2,9 @@
 
 > A Vue.js project
 
-## 这是一个演示项目，也可以是一个 vue + vue-router + vuex + axios 入门教程（大牛飘过）
-## 其中还有许多功能点及细节待开发及完善（未完待续）
-## 感谢 @光光 同学推荐的MockJS
+### 这是一个演示项目，也可以是一个 vue + vue-router + vuex + axios 入门教程（大牛飘过）
+### 其中还有许多功能点及细节待开发及完善（未完待续）
+### 感谢 @光光 同学推荐的MockJS
 
 ## Build Setup
 
