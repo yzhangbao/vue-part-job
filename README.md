@@ -31,13 +31,11 @@ npm run build --report
 ├── index.html         // 项目入口文件
 ├── package.json       // 项目配置文件
 ├── src                // 生产目录
-│   ├── assets         // css js 和图片资源
+│   ├── assets         // css和图片资源
 │   ├── components     // 各种组件
 │   ├── views          // 各种页面
 │   ├── vuex           // vuex状态管理器
 │   └── main.js        // Webpack 预编译入口
 ├── static             // 静态资源
-│   ├── css            // css
-│   ├── images         // 图片资源
-│   ├── img            // 图片资源
+│   └── img            // 图片资源
 </pre>
