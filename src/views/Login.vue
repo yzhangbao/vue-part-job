@@ -17,21 +17,18 @@
             </li>
         </ul>
         <p class="login-tip">成功获取验证码后在console中查看</p>
-        <Tooltips :tip="msg" v-on:clear="clearTip"></Tooltips>
     </section>
 </template>
 
 <script>
   import axios from 'axios'
   import utils from '../libs/utils'
-  import Tooltips from '../components/Tooltips'
   export default {
     name: 'login',
     data () {
       return {
         phone: '',
         code: null,
-        msg: '',
         getText: '获取验证码',
         timeout: 60,
         interval: 60,
@@ -52,10 +49,10 @@
           return false
         }
         if (self.phone === '') {
-          self.msg = '请输入11位手机号码'
+          self.tooltips('请输入11位手机号码')
           return false
         } else if (!utils.checkPhone(self.phone)) {
-          self.msg = '手机号格式不正确'
+          self.tooltips('手机号格式不正确')
           return false
         } else if (self.httping) {
           self.httping = false
@@ -64,7 +61,7 @@
             self.httping = true
             self.countDown()
             self.verify = res.data.verify
-            self.msg = '请输入 ' + res.data.verify + ' 后登录'
+            self.tooltips('请输入 ' + res.data.verify + ' 后登录')
             console.warn('请输入 ' + res.data.verify + ' 后登录')
           }, error => {
             console.error(error)
@@ -89,18 +86,18 @@
       login () {
         const self = this
         if (self.phone === '') {
-          self.msg = '请输入11位手机号码'
+          self.tooltips('请输入11位手机号码')
           return false
         } else if (!utils.checkPhone(self.phone)) {
-          self.msg = '手机号格式不正确'
+          self.tooltips('手机号格式不正确')
           return false
         }
         if (self.code === '') {
-          self.msg = '请输入收到的验证码'
+          self.tooltips('请输入收到的验证码')
           return false
         } else if (self.code !== self.verify) {
           // 示例模拟验证，正式请重组
-          self.msg = '验证码错误'
+          self.tooltips('验证码错误')
           return false
         }
         axios.post('/user/login', {phone: self.phone, code: self.code})
@@ -124,13 +121,7 @@
         }, error => {
           console.error(error)
         })
-      },
-      clearTip () {
-        this.msg = ''
       }
-    },
-    components: {
-      Tooltips
     }
   }
 </script>

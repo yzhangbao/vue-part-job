@@ -19,7 +19,7 @@ var MockData = {
         'body': {
             'list|10': [{
                 'id|1-100': 1,
-                'img': '/static/img/pic04.jpg',
+                'img|1': ['/static/img/pic03.jpg','/static/img/pic04.jpg'],
                 'title': '@ctitle(6, 18)',
                 'tag|1': ['试用', '发单'],
                 'remaining|1-100': 1,

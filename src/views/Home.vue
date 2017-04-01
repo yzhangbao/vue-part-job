@@ -30,8 +30,8 @@
         <!-- 问候语 end -->
         <ul class="tasks-list" id="tasksList">
             <li class="item" v-for="row of taskList">
-            	<router-link class="item-link" :to="'/detail/' + row.id">
-                    <img :src="row.img" alt="">
+            	<router-link class="item-link" :to="'/detail/' + row.id" :style="'background-image: url(' + row.img + ')'">
+                    <!-- <img :src="row.img" alt=""> -->
                     <div class="info">
                         <div class="labels"><label>{{row.tag}}</label></div>
                         <div class="title">{{row.title}}</div>
@@ -44,6 +44,7 @@
                     <div class="bg"></div>
                 </router-link>
             </li>
+            <li class="loading">{{loadingTip}}</li>
         </ul>
 	</div>
 </template>
@@ -67,29 +68,51 @@
         },
         swiperSlides: [],
         taskList: [],
-        greeting: null
+        greeting: null,
+        scroll: true,
+        loadingTip: 'loading...',
+        params: {
+          page: 2,
+          query: 'index'
+        }
       }
     },
     created () {
       const self = this
-      axios.all([self.getBanner(), self.getTaskList()])
-      .then(axios.spread(function (res1, res2) {
-        self.swiperSlides = res1.data.body.list
-        self.taskList = res2.data.body.list
-      }))
+      axios.all([self.getBanner(), axios.get('/home/taskList')])
+        .then(axios.spread(function (res1, res2) {
+          self.swiperSlides = res1.data.body.list
+          self.taskList = res2.data.body.list
+        }))
       self.hello()
+      window.addEventListener('scroll', self.getTaskList, false)
     },
     computed: {
       swiper () {
         return this.$refs.mySwiper.swiper
       }
     },
+    beforeRouteLeave (to, from, next) {
+      window.removeEventListener('scroll', self.getTaskList, false)
+      next()
+    },
     methods: {
       getBanner () {
         return axios.get('/home/banner')
       },
       getTaskList () {
-        return axios.get('/home/taskList')
+        const self = this
+        let totalheight = parseInt(window.screen.height) + parseInt(document.body.scrollTop)
+        if (self.scroll && self.params.page <= 10 && document.body.scrollHeight <= totalheight + 160) {
+          self.scroll = false
+          axios.post('/home/taskList', self.params)
+            .then(res => {
+              self.scroll = true
+              self.params.page += 1
+              self.loadingTip = self.params.page >= 10 ? '侬家也是有底线的~' : 'loading...'
+              self.taskList.push.apply(self.taskList, res.data.body.list)
+            })
+        }
       },
       hello () {
         const self = this
@@ -110,3 +133,22 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  .tasks-list{
+    .item{
+      >a{
+        display: block;
+        height: 100%;
+        background-size: cover;
+        background-position: 50%;
+        background-repeat: no-repeat;
+        background-color: rgba(0,0,0,.1);
+      }
+    }
+  }
+  .loading{
+    text-align: center;
+    color: #999;
+  }
+</style>

@@ -4,6 +4,9 @@ import Vue from 'vue'
 import App from './views/App'
 import router from './router'
 import store from './vuex/user'
+import tooltips from './libs/tooltips'
+
+Vue.use(tooltips)
 
 Vue.config.productionTip = false
 
