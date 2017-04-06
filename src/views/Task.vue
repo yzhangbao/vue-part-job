@@ -110,7 +110,7 @@
     mounted () {
       const self = this
       self.swiper
-        .on('slideChangeEnd', swiper => {
+        .on('transitionEnd', swiper => {
           self.switchTab(swiper.activeIndex, false)
         })
     },
