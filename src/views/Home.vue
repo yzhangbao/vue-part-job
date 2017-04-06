@@ -50,7 +50,7 @@
 </template>
 
 <script>
-// 未开发功能：1.上拉刷新；2.下拉加载更多；3.图片懒加载
+// 未开发功能：1.上拉刷新；2.图片懒加载
   import axios from 'axios'
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
   export default {
@@ -93,6 +93,7 @@
       }
     },
     beforeRouteLeave (to, from, next) {
+      const self = this
       window.removeEventListener('scroll', self.getTaskList, false)
       next()
     },
@@ -107,10 +108,10 @@
           self.scroll = false
           axios.post('/home/taskList', self.params)
             .then(res => {
+              self.taskList.push.apply(self.taskList, res.data.body.list)
               self.scroll = true
               self.params.page += 1
               self.loadingTip = self.params.page >= 10 ? '侬家也是有底线的~' : 'loading...'
-              self.taskList.push.apply(self.taskList, res.data.body.list)
             })
         }
       },

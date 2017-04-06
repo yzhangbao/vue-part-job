@@ -26,7 +26,7 @@ export default new Router({
           }
         },
         {
-          path: 'task/:type',
+          path: 'task',
           component (resolve) {
             require.ensure(['@/views/Task'], () => {
               resolve(require('@/views/Task'))

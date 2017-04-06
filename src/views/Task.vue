@@ -76,7 +76,7 @@
 
 <script>
 // 模拟数据，有可能倒计时与按钮状态有不一致情况
-// 未完善功能：1.左右滚动盒子高度重置；2.上拉刷新；3.下拉加载更多
+// 未完善功能：1.上拉刷新；2.下拉加载更多
   import { mapGetters } from 'vuex'
   import axios from 'axios'
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
@@ -88,7 +88,7 @@
         swiperOption: {
           notNextTick: true,
           setWrapperSize: true,
-          initialSlide: this.$route.params.type
+          autoHeight: true
         },
         activeIndex: 0,
         info: {},
@@ -97,7 +97,6 @@
     },
     created () {
       const self = this
-      self.activeIndex = self.$route.params.type
       self.getList()
     },
     computed: {
@@ -133,10 +132,8 @@
       switchTab (index, change) {
         const self = this
         window.scrollTo(0, 0)
-        self.$router.push({
-          path: '/task/' + index
-        })
-        self.activeIndex = self.$route.params.type
+        self.activeIndex = index
+        self.getList()
         if (change) {
           self.swiper.slideTo(self.activeIndex)
         }
@@ -146,9 +143,6 @@
         // 倒计时结束，标记任务状态为延期
         this.list[i][j].status = 1
       }
-    },
-    watch: {
-      '$route': 'getList'
     },
     components: {
       swiper,

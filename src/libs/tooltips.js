@@ -4,9 +4,7 @@ export default {
     let timer = null
     Vue.prototype.tooltips = (msg) => {
       const ele = document.getElementById('msgTip')
-      if (ele !== null) {
-        ele.parentNode.removeChild(ele)
-      }
+      ele && ele.parentNode.removeChild(ele)
       const div = document.createElement('div')
       document.body.appendChild(div)
       div.id = 'msgTip'
