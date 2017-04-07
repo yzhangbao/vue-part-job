@@ -25,7 +25,7 @@
 	    </div>
 	    <!-- 任务介绍 end -->
 	    <div class="section-btn-box">
-			<router-link class="btn confirm" v-if="result.status == 1" to="do">接任务</router-link>
+			<router-link class="btn confirm" v-if="result.status == 1" to="/do">接任务</router-link>
 	        <div class="btn confirm disabled" v-else-if="result.status == 2">任务已抢光，下次早点来哦</div>
 	        <div class="btn confirm complete" v-else>任务已完成，验收通过！棒棒哒</div>
 	    </div>

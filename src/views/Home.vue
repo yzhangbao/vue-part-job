@@ -30,8 +30,10 @@
         <!-- 问候语 end -->
         <ul class="tasks-list" id="tasksList">
             <li class="item" v-for="row of taskList">
-            	<router-link class="item-link" :to="'/detail/' + row.id" :style="'background-image: url(' + row.img + ')'">
+              <!-- <router-link class="item-link" :to="'/detail/' + row.id" :style="'background-image: url(' + row.img + ')'"> -->
+            	<router-link class="item-link" :to="'/detail/' + row.id">
                     <!-- <img :src="row.img" alt=""> -->
+                    <asyn-image :src="row.img"></asyn-image>
                     <div class="info">
                         <div class="labels"><label>{{row.tag}}</label></div>
                         <div class="title">{{row.title}}</div>
@@ -44,15 +46,16 @@
                     <div class="bg"></div>
                 </router-link>
             </li>
-            <li class="loading">{{loadingTip}}</li>
+            <li class="loading" :class="{loaded: loaded}">{{loadingTip}}</li>
         </ul>
 	</div>
 </template>
 
 <script>
-// 未开发功能：1.上拉刷新；2.图片懒加载
+// 未开发功能：1.上拉刷新；
   import axios from 'axios'
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
+  import asynImage from '../components/AsynImage'
   export default {
     name: 'home',
     data () {
@@ -70,7 +73,8 @@
         taskList: [],
         greeting: null,
         scroll: true,
-        loadingTip: 'loading...',
+        loaded: false,
+        loadingTip: '玩命加载中...',
         params: {
           page: 2,
           query: 'index'
@@ -111,7 +115,10 @@
               self.taskList.push.apply(self.taskList, res.data.body.list)
               self.scroll = true
               self.params.page += 1
-              self.loadingTip = self.params.page >= 10 ? '侬家也是有底线的~' : 'loading...'
+              if (self.params.page >= 10) {
+                self.loadingTip = '侬家也是有底线的~'
+                self.loaded = true
+              }
             })
         }
       },
@@ -130,7 +137,8 @@
     },
     components: {
       swiper,
-      swiperSlide
+      swiperSlide,
+      asynImage
     }
   }
 </script>
@@ -145,11 +153,38 @@
         background-position: 50%;
         background-repeat: no-repeat;
         background-color: rgba(0,0,0,.1);
+        overflow: hidden;
       }
     }
   }
   .loading{
+    position: relative;
     text-align: center;
     color: #999;
+    &.loaded{
+      &:before{
+        display: none;
+      }
+    }
+    &:before{
+      display: inline-block;
+      margin-right: .05rem;
+      content: '';
+      width: .18rem;
+      height: .18rem;
+      vertical-align: middle;
+      border-radius: 50%;
+      border: .02rem solid rgba(153, 153, 153, .3);
+      border-bottom: .02rem solid #999;
+      animation: loading 1.4s infinite linear;
+    }
   }
+  @keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 </style>
