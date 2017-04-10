@@ -2,7 +2,7 @@
 	<div>
         <div class="swiper-banner">
 	        <swiper :options="swiperOption" ref="mySwiper">
-  			    <swiper-slide v-for="(slide, index) in swiperSlides" :slide="slide" :index="index" :key="slide.id">
+  			    <swiper-slide v-for="(slide, index) in swiperSlides" :key="slide.id">
   					  <a :href="slide.link">
                   <img class="swiper-lazy" v-if="index == 0" :src="slide.img">
                   <img class="swiper-lazy" v-else :data-src="slide.img">

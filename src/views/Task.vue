@@ -115,6 +115,11 @@
         return this.$refs.mySwiper.swiper
       }
     },
+    beforeRouteLeave (to, from, next) {
+      const self = this
+      window.removeEventListener('scroll', self.getScrollList, false)
+      next()
+    },
     mounted () {
       const self = this
       self.swiper
