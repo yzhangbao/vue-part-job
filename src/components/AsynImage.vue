@@ -53,16 +53,18 @@ export default {
 
 <style scoped>
   .fadeIn {
-    animation: fadeIn 1s ease-out;
+    animation: fadeIn .85s ease-out;
   }
   @keyframes fadeIn {
     0% {
       opacity: 0;
       transform: scale(1.1);
+      filter: blur(2vw);
     }
     100% {
       opacity: 1;
       transform: scale(1);
+      filter: none;
     }
   }
 </style>

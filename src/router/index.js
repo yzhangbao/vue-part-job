@@ -14,7 +14,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Index',
+      // name: 'Index',  //有默认子路由，则去掉
       component: Index,
       children: [
         {

@@ -2,7 +2,7 @@
 	<div>
         <div class="swiper-banner">
 	        <swiper :options="swiperOption" ref="mySwiper">
-  			    <swiper-slide v-for="(slide, index) in swiperSlides">
+  			    <swiper-slide v-for="(slide, index) in swiperSlides" :slide="slide" :index="index" :key="slide.id">
   					  <a :href="slide.link">
                   <img class="swiper-lazy" v-if="index == 0" :src="slide.img">
                   <img class="swiper-lazy" v-else :data-src="slide.img">
@@ -108,7 +108,7 @@
       getTaskList () {
         const self = this
         let totalheight = parseInt(window.screen.height) + parseInt(document.body.scrollTop)
-        if (self.scroll && self.params.page <= 10 && document.body.scrollHeight <= totalheight + 160) {
+        if (self.scroll && self.params.page < 10 && document.body.scrollHeight <= totalheight + 160) {
           self.scroll = false
           axios.post('/home/taskList', self.params)
             .then(res => {
@@ -144,6 +144,7 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "../assets/scss/basic";
   .tasks-list{
     .item{
       >a{
@@ -168,14 +169,14 @@
     }
     &:before{
       display: inline-block;
-      margin-right: .05rem;
+      @include remlace(margin-right, 10px);
       content: '';
-      width: .18rem;
-      height: .18rem;
+      @include remlace(width, 36px);
+      @include remlace(height, 36px);
       vertical-align: middle;
       border-radius: 50%;
-      border: .02rem solid rgba(153, 153, 153, .3);
-      border-bottom: .02rem solid #999;
+      border: pxToRem(4px) solid rgba(153, 153, 153, .3);
+      border-bottom: pxToRem(4px) solid #999;
       animation: loading 1.4s infinite linear;
     }
   }

@@ -29,6 +29,7 @@
                             <dt class="icon"></dt>
                             <dd class="tip">还没有待完成的任务</dd>
                         </dl>
+                        <div class="loading" :class="{loaded: loaded[0]}">{{loadingTip[0]}}</div>
                     </div>
                 </swiper-slide>
                 <!-- 待验收[[ -->
@@ -49,6 +50,7 @@
                             <dt class="icon"></dt>
                             <dd class="tip">还没有待验收的任务</dd>
                         </dl>
+                        <div class="loading" :class="{loaded: loaded[1]}">{{loadingTip[1]}}</div>
                     </div>
                 </swiper-slide>
                 <!-- 已结束[[ -->
@@ -67,6 +69,7 @@
                             <dt class="icon"></dt>
                             <dd class="tip">还没有已结束的任务</dd>
                         </dl>
+                        <div class="loading" :class="{loaded: loaded[2]}">{{loadingTip[2]}}</div>
                     </div>
                 </swiper-slide>
             </swiper>
@@ -76,7 +79,7 @@
 
 <script>
 // 模拟数据，有可能倒计时与按钮状态有不一致情况
-// 未完善功能：1.上拉刷新；2.下拉加载更多
+// 未完善功能：1.上拉刷新；
   import { mapGetters } from 'vuex'
   import axios from 'axios'
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
@@ -92,12 +95,17 @@
         },
         activeIndex: 0,
         info: {},
-        list: []
+        list: [],
+        scroll: true,
+        page: [1, 1, 1],
+        loaded: [false, false, false],
+        loadingTip: ['玩命加载中...', '玩命加载中...', '玩命加载中...']
       }
     },
     created () {
       const self = this
       self.getList()
+      window.addEventListener('scroll', self.getScrollList, false)
     },
     computed: {
       ...mapGetters({
@@ -118,22 +126,41 @@
       getList () {
         const self = this
         let type = self.activeIndex
-        if (self.list[type] === undefined) {
-          axios.post('/task/taskList', {userId: self.userInfo.userId, type: type})
-            .then(res => {
-              let data = res.data.body
-              self.info = data.info
+        axios.post('/task/taskList', {userId: self.userInfo.userId, type: type, page: self.page[type]})
+          .then(res => {
+            let data = res.data.body
+            self.info = data.info
+            if (self.list[type]) {
+              self.list[type].push.apply(self.list[type], data.list)
+            } else {
               self.list[type] = data.list
-            }, error => {
-              console.error(error)
-            })
+            }
+            self.page[type] += 1
+            self.scroll = true
+            if (self.page[type] >= 10) {
+              self.loadingTip[type] = '侬家也是有底线的~'
+              self.loaded[type] = true
+            }
+          }, error => {
+            console.error(error)
+          })
+      },
+      getScrollList () {
+        const self = this
+        let type = self.activeIndex
+        let totalheight = parseInt(window.screen.height) + parseInt(document.body.scrollTop)
+        if (self.scroll && self.page[type] < 10 && document.body.scrollHeight <= totalheight + 160) {
+          self.scroll = false
+          self.getList()
         }
       },
       switchTab (index, change) {
         const self = this
-        window.scrollTo(0, 0)
         self.activeIndex = index
-        self.getList()
+        if (self.page[index] === 1) {
+          window.scrollTo(0, 0)
+          self.getList()
+        }
         if (change) {
           self.swiper.slideTo(self.activeIndex)
         }
@@ -151,3 +178,38 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  @import "../assets/scss/basic";
+  .loading{
+    position: relative;
+    @include remlace(padding-bottom, 10px);
+    text-align: center;
+    color: #999;
+    &.loaded{
+      &:before{
+        display: none;
+      }
+    }
+    &:before{
+      display: inline-block;
+      @include remlace(margin-right, 10px);
+      content: '';
+      @include remlace(width, 36px);
+      @include remlace(height, 36px);
+      vertical-align: middle;
+      border-radius: 50%;
+      border: pxToRem(4px) solid rgba(153, 153, 153, .3);
+      border-bottom: pxToRem(4px) solid #999;
+      animation: loading 1.4s infinite linear;
+    }
+  }
+  @keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+</style>
