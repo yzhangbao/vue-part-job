@@ -7,6 +7,7 @@
                   <img class="swiper-lazy" v-if="index == 0" :src="slide.img">
                   <img class="swiper-lazy" v-else :data-src="slide.img">
                   <div class="swiper-lazy-preloader"></div>
+                  <touch-ripple :centerRipple="false"></touch-ripple>
               </a>
   			    </swiper-slide>
   			    <div class="swiper-pagination" slot="pagination"></div>
@@ -44,6 +45,7 @@
                         </div>
                     </div>
                     <div class="bg"></div>
+                    <touch-ripple :centerRipple="false"></touch-ripple>
                 </router-link>
             </li>
             <li class="loading" :class="{loaded: loaded}">{{loadingTip}}</li>
@@ -56,6 +58,7 @@
   import axios from 'axios'
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
   import asynImage from '../components/AsynImage'
+  import touchRipple from '../components/TouchRipple'
   export default {
     name: 'home',
     data () {
@@ -138,7 +141,8 @@
     components: {
       swiper,
       swiperSlide,
-      asynImage
+      asynImage,
+      touchRipple
     }
   }
 </script>

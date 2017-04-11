@@ -2,7 +2,7 @@ import Vue from 'vue'
 export default {
   install () {
     let timer = null
-    Vue.prototype.tooltips = (msg) => {
+    Vue.prototype.tooltips = (msg, delay) => {
       const ele = document.getElementById('msgTip')
       ele && ele.parentNode.removeChild(ele)
       const div = document.createElement('div')
@@ -22,7 +22,7 @@ export default {
         div.className = 'tips animated zoomOut'
         el.addEventListener('animationend', handler)
         el.addEventListener('webkitAnimationEnd', handler)
-      }, 2500)
+      }, delay || 2000)
     }
   }
 }

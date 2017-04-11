@@ -65,10 +65,15 @@ export default new Router({
     },
     {
       path: '*',
-      component: Index
+      name: 'Error',
+      component (resolve) {
+        require.ensure(['@/views/Error'], () => {
+          resolve(require('@/views/Error'))
+        })
+      }
     }
   ],
-  // mode: 'history',
+  mode: 'history',
   scrollBehavior (to, from, savedPosition) {
     // 只在 HTML5 history 模式下可用
     if (savedPosition) {

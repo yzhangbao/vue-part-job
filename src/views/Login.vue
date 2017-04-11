@@ -10,10 +10,10 @@
             </li>
             <li class="row border-handle">
                 <input type="text" class="txt" v-model.number="code" maxlength="6" placeholder="验证码">
-                <span class="get-code" @click="getCode">{{getText}}</span>
+                <span class="get-code" @click="getCode">{{getText}}<touch-ripple :centerRipple="false" v-show="!disabled"></touch-ripple></span>
             </li>
             <li class="row">
-                <div class="submit-btn" @click="login">登录</div>
+                <div class="submit-btn" @click="login">登录<touch-ripple v-show="httping" :centerRipple="false" color="#f55c50"></touch-ripple></div>
             </li>
         </ul>
         <p class="login-tip">成功获取验证码后在console中查看</p>
@@ -23,6 +23,7 @@
 <script>
   import axios from 'axios'
   import utils from '../libs/utils'
+  import touchRipple from '../components/TouchRipple'
   export default {
     name: 'login',
     data () {
@@ -40,7 +41,11 @@
       }
     },
     created () {
-      this.availHeight = window.screen.availHeight
+      let doc = document
+      let body = doc.body
+      let clientTop = body.clientTop || 0
+      let viewHeight = doc.documentElement.clientHeight || body.clientHeight
+      this.availHeight = viewHeight - clientTop
     },
     methods: {
       getCode () {
@@ -61,7 +66,7 @@
             self.httping = true
             self.countDown()
             self.verify = res.data.verify
-            self.tooltips('请输入 ' + res.data.verify + ' 后登录')
+            self.tooltips('请输入 ' + res.data.verify + ' 后登录', 5000)
             console.warn('请输入 ' + res.data.verify + ' 后登录')
           }, error => {
             console.error(error)
@@ -122,6 +127,9 @@
           console.error(error)
         })
       }
+    },
+    components: {
+      touchRipple
     }
   }
 </script>

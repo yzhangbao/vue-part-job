@@ -8,31 +8,35 @@
             </dl>
         </div>
         <div class="item-ucenter">
-            <a href="javascript:;" class="item item-link">
+            <touch-ripple :centerRipple="false" class="item">
                 <p class="name"><i class="icon-ucenter icon0"></i>个人信息</p>
                 <p class="tip">90%</p>
-            </a>
-            <a href="javascript:;" class="item item-link">
+            </touch-ripple>
+            <touch-ripple :centerRipple="false" class="item">
                 <p class="name"><i class="icon-ucenter icon1"></i>身份认证</p>
                 <p class="tip">未认证</p>
-            </a>
-            <a href="javascript:;" class="item item-link">
+            </touch-ripple>
+            <touch-ripple :centerRipple="false" class="item">
                 <p class="name"><i class="icon-ucenter icon2"></i>我的钱包</p>
                 <p class="tip">0.00</p>
-            </a>
+            </touch-ripple>
         </div>
         <div class="item-ucenter">
-            <a href="javascript:;" class="item item-link">
+            <touch-ripple :centerRipple="false" class="item">
                 <p class="name"><i class="icon-ucenter icon3"></i>邀请好友</p>
                 <p class="tip highlight">有奖励</p>
-            </a>
+            </touch-ripple>
             <a href="mailto:yangzhangbao@126.com" class="item item-link">
-                <p class="name"><i class="icon-ucenter icon4"></i>意见反馈</p>
+                <touch-ripple :centerRipple="false">
+                    <p class="name"><i class="icon-ucenter icon4"></i>意见反馈</p>
+                </touch-ripple>
             </a>
         </div>
         <div class="item-ucenter">
-            <a href="javascript:;" class="item item-link" @click="isLogout">
-                <p class="name"><i class="icon-ucenter icon5"></i>安全退出</p>
+            <a href="javascript:;" class="item" @click="isLogout">
+                <touch-ripple :centerRipple="false">
+                    <p class="name"><i class="icon-ucenter icon5"></i>安全退出</p>
+                </touch-ripple>
             </a>
         </div>
         <div v-show="isDialog">
@@ -52,6 +56,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import touchRipple from '../components/TouchRipple'
   export default {
     name: 'login',
     data () {
@@ -84,6 +89,9 @@
           path: '/'
         })
       }
+    },
+    components: {
+      touchRipple
     }
   }
 </script>

@@ -64,6 +64,7 @@
 		}
 	}
 	.submit-btn{
+		position: relative;
 		@include remlace(margin-top,50px);
 		@include remlace(line-height,88px);
 		@include remlace(font-size,32px);

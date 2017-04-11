@@ -540,6 +540,7 @@
 	background-color: rgba(255, 255, 255, .85);
 	@include remlace(font-size,20px);
 	.item{
+		position: relative;
 		flex-grow: 1;
 		@include remlace(padding,12px,0,10px);
 		text-align: center;
@@ -547,9 +548,9 @@
 		&.current{
 			color: #f55c50;
 		}
-		&:active{
-			background-color: rgba(0,0,0,.1);
-		}
+		// &:active{
+		// 	background-color: rgba(0,0,0,.1);
+		// }
 		&.new{
 			position: relative;
 			&:after{
@@ -816,6 +817,7 @@
 	.tab-items{
 		display: flex;
 		li{
+			position: relative;
 			@include remlace(line-height,88px);
 			flex:1;
 			@include remlace(font-size,28px);

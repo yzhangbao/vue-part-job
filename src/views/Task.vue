@@ -2,9 +2,9 @@
 	<div>
 		<div class="tab-box border-handle">
             <ul class="tab-items">
-                <li :class="{current: activeIndex==0}" @click="switchTab(0, true)">待完成<span class="num">({{info.unTotal}})</span></li>
-                <li :class="{current: activeIndex==1}" @click="switchTab(1, true)">待验收<span class="num">({{info.doTotal}})</span></li>
-                <li :class="{current: activeIndex==2}" @click="switchTab(2, true)">已结束</li>
+                <li :class="{current: activeIndex==0}" @click="switchTab(0, true)">待完成<span class="num">({{info.unTotal}})</span><touch-ripple :centerRipple="false"></touch-ripple></li>
+                <li :class="{current: activeIndex==1}" @click="switchTab(1, true)">待验收<span class="num">({{info.doTotal}})</span><touch-ripple :centerRipple="false"></touch-ripple></li>
+                <li :class="{current: activeIndex==2}" @click="switchTab(2, true)">已结束<touch-ripple :centerRipple="false"></touch-ripple></li>
             </ul>
         </div>
         <div id="tabs-container">
@@ -14,13 +14,13 @@
                     <div v-show="list[0]">
                         <ul class="list" v-if="list[0]">
                             <li class="item" v-for="(row, index) of list[0]">
-                            	<router-link class="detail-view item-link" :to="'/detail/' + row.id">{{row.title}}<span class="tag border-handle" v-if="row.tag">{{row.tag}}</span></router-link>
+                            	<router-link class="detail-view" :to="'/detail/' + row.id">{{row.title}}<span class="tag border-handle" v-if="row.tag">{{row.tag}}</span><touch-ripple :centerRipple="false"></touch-ripple></router-link>
                                 <div class="item-info">
                                     <div class="date-time">
                                         <p class="tit">距离完成还剩</p>
                                         <countdown :systemTime="row.systemTime" :startTime="row.startTime" :endTime="row.endTime" v-on:done="doneEvt(0, index)"></countdown>
                                     </div>
-                                    <router-link class="perform border-handle item-link" v-if="row.status ==0" :to="'/done/' + row.taskId">{{row.tag ? '去执行' : '做任务'}}</router-link>
+                                    <router-link class="perform border-handle" v-if="row.status ==0" :to="'/done/' + row.taskId">{{row.tag ? '去执行' : '做任务'}}<touch-ripple :centerRipple="false"></touch-ripple></router-link>
                                     <div class="perform border-handle disabled" v-if="row.status ==1">{{row.tag ? '去执行' : '做任务'}}</div>
                                 </div>
                             </li>
@@ -37,7 +37,7 @@
                     <div v-show="list[1]">
                         <ul class="list" v-if="list[1]">
                             <li class="item" v-for="row of list[1]">
-                                <router-link class="detail-view item-link" :to="'/detail/' + row.id">{{row.title}}<span class="tag border-handle" v-if="row.tag">{{row.tag}}</span></router-link>
+                                <router-link class="detail-view" :to="'/detail/' + row.id">{{row.title}}<span class="tag border-handle" v-if="row.tag">{{row.tag}}</span><touch-ripple :centerRipple="false"></touch-ripple></router-link>
                                 <div class="item-info">
                                     <div class="date-time">
                                         <p class="tit">距离完成还剩</p>
@@ -58,7 +58,7 @@
                     <div v-show="list[2]">
                         <ul class="list" v-if="list[2]">
                             <li class="item" v-for="(row, index) of list[2]">
-                                <router-link class="detail-view item-link" :to="'/detail/' + row.id">{{row.title}}<span class="tag border-handle" v-if="row.tag">{{row.tag}}</span></router-link>
+                                <router-link class="detail-view" :to="'/detail/' + row.id">{{row.title}}<span class="tag border-handle" v-if="row.tag">{{row.tag}}</span><touch-ripple :centerRipple="false"></touch-ripple></router-link>
                                 <dl class="item-info">
                                     <dt class="acceptance"><i class="icon-acceptance" :class="{icon01: row.status==3}"></i>{{row.status==3 ? '验收未通过' : '验收通过'}}</dt>
                                     <dd class="acceptance-tip" v-if="row.status==3 && row.reason">未通过原因：{{row.reason}}</dd>
@@ -84,6 +84,7 @@
   import axios from 'axios'
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
   import Countdown from '../components/Countdown'
+  import touchRipple from '../components/TouchRipple'
   export default {
     name: 'task',
     data () {
@@ -179,7 +180,8 @@
     components: {
       swiper,
       swiperSlide,
-      Countdown
+      Countdown,
+      touchRipple
     }
   }
 </script>
